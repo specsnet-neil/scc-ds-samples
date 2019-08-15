@@ -1,0 +1,8 @@
+#! /bin/bash
+
+. survey_params.py
+
+# layer 1 works the same as layer 0; this script is hard coded to layer 0
+
+URL="https://services.arcgis.com/NkcnS0qk4w2wasOJ/arcgis/rest/services/survey123_${SURVEY_ID}_stakeholder/FeatureServer/0?f=pjson"
+curl --silent --show-error "$URL"

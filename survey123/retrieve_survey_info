@@ -1,0 +1,78 @@
+#! /usr/bin/env python3
+
+import arcgis
+from arcgis.gis import GIS
+from arcgis.apps.survey123 import SurveyManager
+
+import logging
+from logging.config import dictConfig
+
+from pprint import PrettyPrinter
+
+import survey_params
+
+
+pp = PrettyPrinter(indent=2)
+
+def main():
+    log.info("starting...")
+    #gis = GIS(username=GIS_USER, password=GIS_PASSWORD)
+    gis = GIS()
+    log.info(f"logged in: gis { gis }")
+
+    survey = SurveyManager(gis).get(survey_params.SURVEY_ID)
+    log.info(f"found survey: { survey }")
+    log.info(f"survey properties: { pp.pformat(survey.properties) }")
+
+
+
+
+def init_logging(app_name):
+    logging_config = {
+        'version': 1,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'default',
+                'level': 'DEBUG',
+                'stream': 'ext://sys.stderr'
+            },
+        },
+        'formatters': {
+            'default': {
+                'format': '%(asctime)s %(levelname)-5s %(name)-10s %(funcName)-.15s:%(lineno)d %(message)s',
+                'datefmt': '%Y-%m-%d %H:%M:%S',
+            },
+        },
+        'root': {
+            'level': 'DEBUG',
+            'handlers': [ 'console' ],
+        },
+        'loggers': {
+            'urllib3': {
+                'level': 'INFO',
+            },
+            'selenium': {
+                'level': 'INFO',
+            },
+            'pyexcel': {
+                'level': 'INFO',
+            },
+            'pyexcel_io': {
+                'level': 'INFO',
+            },
+            'lml': {
+                'level': 'INFO',
+            },
+        },
+    }
+
+    logging.config.dictConfig(logging_config)
+    log = logging.getLogger(app_name)
+    return log
+
+if __name__ == '__main__':
+    log = init_logging(__name__)
+    main()
+else:
+    log = logging.getLogger(__name__)

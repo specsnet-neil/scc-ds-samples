@@ -1,0 +1,8 @@
+
+# this file is a horrible hack: its is importable by both python
+# and shell scripts for our variables.
+#
+# Copy this sample file to 'survey_params.py' and update the survey id
+# See the README for more info
+
+SURVEY_ID='<insert survey id here>'

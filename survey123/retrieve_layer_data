@@ -1,0 +1,45 @@
+#! /bin/bash
+
+PROG_NAME="${0#*/}"
+
+function Usage() {
+    echo "Usage: $PROG_NAME [ --data | --images ]" 1>&2
+    exit 1
+}
+
+function fatal() {
+    echo "Fatal Error: $PROG_NAME: $*" 1>&2
+    exit 1
+}
+
+. survey_params.py
+
+URL="https://services.arcgis.com/NkcnS0qk4w2wasOJ/arcgis/rest/services/survey123_${SURVEY_ID}_stakeholder/FeatureServer/query?f=pjson&layerDefs="
+
+function main() {
+    local arg="$1"; shift
+
+    local layerid
+
+    case "$arg" in
+        '--data')
+            layer=0
+            ;;
+        '--images')
+            layer=1
+            ;;
+        *)
+            fatal "Unknown argument '$arg'"
+            ;;
+    esac
+
+    local url_suffix="${layer}:objectid>=0"
+
+    curl --silent --show-error "${URL}${url_suffix}"
+}
+
+if [[ $# != 1 ]]; then
+    Usage
+fi
+
+main "$@"
