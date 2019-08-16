@@ -5,6 +5,7 @@ Samples are built with python, using pipenv as the addon manager.  To set up you
 
 ```shell
 # these instructions assume you already have pipenv and python3.7 installed and in your path.
+pipenv --python 3.7
 pipenv sync     # installs all required packages
 pipenv shell    # makes a shell with this virtual environment
 ```
